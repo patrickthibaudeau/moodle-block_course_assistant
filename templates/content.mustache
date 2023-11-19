@@ -1,0 +1,53 @@
+{{! Only show Al Assitant icon if a file name is available}}
+{{#file_name}}
+    <script>
+        let payload = {
+            "context": {
+                "firstName": "{{first_name}}",
+                "fileName": "{{file_name}}",
+                "courseId": "{{courseid}}",
+                "idnumber": "{{idnumber}}",
+                "format": "{{format}}"
+            }
+        }
+
+        let dataPayload = JSON.stringify(payload);
+
+        setTimeout(function () {
+            const t = document.createElement('script');
+            t.setAttribute('data-prop-payload', dataPayload);
+            document.head.appendChild(t);
+        });
+    </script>
+{{/file_name}}
+<div id="block-all-course-assistant-content" class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <button type="button" class="btn btn-link alCourseAssitantLaunhBtn" onclick="window.open('{{config.wwwroot}}/blocks/al_course_assistant/webchat.php?courseid={{courseid}}', '_blank', 'toolbar=0,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,resizeable=0,height=680px,width=400px');">
+                <img id="block-al-course-assistant-img"
+                     src="{{config.wwwroot}}/blocks/al_course_assistant/pix/logo.png">
+            </button>
+        </div>
+    </div>
+    {{#can_edit}}
+        <div class="row">
+            <div class="col">
+                <h5>{{#str}}settings, block_course_assistant{{/str}}</h5>
+                {{#templatesurl}}
+                    <a href="{{templatesurl}}" target="_blank">{{#str}}available_templates, block_course_assistant{{/str}}</a>
+                {{/templatesurl}}
+
+                <h6 class="mt-2">{{#str}}currently_uploaded, block_course_assistant{{/str}}</h6>
+                <a href="{{config.wwwroot}}/blocks/al_course_assistant/add_syllabus.php?courseid={{courseid}}">
+                {{^file_name}}
+                    {{#str}}add_syllabus, block_course_assistant{{/str}}
+                {{/file_name}}
+                {{#file_name}}
+                    {{file_name}}
+                {{/file_name}}
+                </a>
+            </div>
+        </div>
+    {{/can_edit}}
+</div>
+
